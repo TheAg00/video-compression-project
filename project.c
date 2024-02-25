@@ -4,9 +4,18 @@
 // Καθορίζουμε το ύψος και το πλάτος του βίντεο.
 #define HEIGHT 1080
 #define WIDTH 1920
-#define BLOCK_SIZE 4
 
-int yplane[HEIGHT][WIDTH];
+// int yplane[HEIGHT][WIDTH];
+
+// Μετατρέψουμε το yuv frame σε grayscaled.
+void convertToGrayscale(unsigned char *yuvFrame) {
+    for (int i = WIDTH * HEIGHT + 1; i < WIDTH * HEIGHT * 3 / 2; i++) {
+        // Θέτουμε τις τιμές των u και v σε 128, δηλαδή γκρίζο χρώμα.
+        yuvFrame[i] = 128; // U στοιχείο.
+        yuvFrame[WIDTH * HEIGHT * 5 / 4 + i + 1] = 128; // V στοιχείο.
+    }
+}
+
 
 int main() {
     // Διαβάζουμε το yuv αρχείο.
@@ -32,8 +41,10 @@ int main() {
 
     // Κάνουμε iterate όλα τα frames του ασυμπίεστου ασπρόμαυρου βίντεο.
     while(fread(yuvFrame, 1, frameSize, fd) == frameSize) {
-
+        // Μετατρέπουμε το frame σε grayscaled.
+        convertToGrayscale(yuvFrame);
     }
+
 
     // Κλείνουμε το αρχείο και αποδεσμεύουμε τη μνήμη.
     fclose(fd);
