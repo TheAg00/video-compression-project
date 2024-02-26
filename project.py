@@ -26,11 +26,14 @@ if __name__ == "__main__":
     frames = [yuv_frame[i*frameSize:(i+1)*frameSize] for i in range(len(yuv_data) // frameSize)]
 
     # Μετατρέπουμε κάθε frame σε grayscaled.
+    framesNew = []
     for frame in frames:
         aFrame = np.copy(frame)
         convert_to_grayscale(aFrame)
+        framesNew.append(aFrame)
+
 
     # Αντιστοιχούμε κάθε ασπρόμαυρο frame στο fd2 αρχείο.
     with open("Bosphorus.yuv", "wb") as fd2:
-        for frame in frames:
+        for frame in framesNew:
             fd2.write(frame.tobytes())
