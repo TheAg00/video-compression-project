@@ -20,19 +20,15 @@ if __name__ == "__main__":
 
     # Υπολογίζουμε το μέγεθος κάθε yuv frame.
     frameSize = int(WIDTH * HEIGHT * 3 / 2)
-    print("yo")
 
     # Μετατρέπουμε τα YUV data σε NumPy πίνακα.
     yuv_frame = np.frombuffer(yuv_data, dtype=np.uint8)
-    print("-1")
     frames = [yuv_frame[i*frameSize:(i+1)*frameSize] for i in range(len(yuv_data) // frameSize)]
-    print("0")
 
     # Μετατρέπουμε κάθε frame σε grayscaled.
     for frame in frames:
         aFrame = np.copy(frame)
         convert_to_grayscale(aFrame)
-    print("2")
 
     # Αντιστοιχούμε κάθε ασπρόμαυρο frame στο fd2 αρχείο.
     with open("Bosphorus.yuv", "wb") as fd2:
