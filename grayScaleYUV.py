@@ -1,10 +1,8 @@
-import cv2
 import numpy as np
 
 # Θέτουμε το ύψος και πλάτος του βίντεο.
 HEIGHT = 1080
 WIDTH = 1920
-
 
 # Μετατρέπουμε το frame σε grayscaled.
 def convert_to_grayscale(yuv_frame):
@@ -19,11 +17,11 @@ def grayScale():
         yuv_data = fd.read()
 
     # Υπολογίζουμε το μέγεθος κάθε yuv frame.
-    frameSize = int(WIDTH * HEIGHT * 3 / 2)
+    frameSize = WIDTH * HEIGHT * 3 // 2
 
     # Μετατρέπουμε τα YUV data σε NumPy πίνακα.
     yuv_frame = np.frombuffer(yuv_data, dtype=np.uint8)
-    frames = [yuv_frame[i*frameSize:(i+1)*frameSize] for i in range(len(yuv_data) // frameSize)]
+    frames = [yuv_frame[i * frameSize:(i + 1) * frameSize] for i in range(len(yuv_data) // frameSize)]
 
     # Μετατρέπουμε κάθε frame σε grayscaled.
     framesNew = []

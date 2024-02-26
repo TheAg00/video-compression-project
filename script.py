@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 import grayScaleYUV
 
@@ -8,7 +9,8 @@ WIDTH = 1920
 
 
 if __name__ == "__main__":
-    # Δημιουργούμε ένα ασπρόμαυρο ασυμπίστο αρχείο από ένα ένχρωμο.
-    print("Generating grayscaled YUV file...")
-    grayScaleYUV.grayScale()
-    print("YUV file generated successfully!")
+    if not os.path.exists("Bosphorus_black_and_white.yuv"):
+        # Δημιουργούμε ένα ασπρόμαυρο ασυμπίστο αρχείο από ένα ένχρωμο.
+        print("Generating grayscaled YUV file...")
+        grayScaleYUV.grayScale()
+        print("YUV file generated successfully!")
