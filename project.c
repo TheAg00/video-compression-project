@@ -9,10 +9,14 @@
 
 // Μετατρέψουμε το yuv frame σε grayscaled.
 void convertToGrayscale(unsigned char *yuvFrame) {
-    for (int i = WIDTH * HEIGHT + 1; i < WIDTH * HEIGHT * 3 / 2; i++) {
+    int i;
+    for (i = WIDTH * HEIGHT + 1; i < WIDTH * HEIGHT * 5 / 4 + 1; i++) {
         // Θέτουμε τις τιμές των u και v σε 128, δηλαδή γκρίζο χρώμα.
         yuvFrame[i] = 128; // U στοιχείο.
-        yuvFrame[WIDTH * HEIGHT * 5 / 4 + i + 1] = 128; // V στοιχείο.
+    }
+
+    for (i = WIDTH * HEIGHT * 5 / 4 + 1; i < WIDTH * HEIGHT * 3 / 2; i++) {
+        yuvFrame[i] = 128; // V στοιχείο.
     }
 }
 
@@ -20,6 +24,7 @@ void convertToGrayscale(unsigned char *yuvFrame) {
 int main() {
     // Διαβάζουμε το yuv αρχείο.
     FILE *fd = fopen("./Bosphorus_1920x1080_120fps_420_8bit_YUV_RAW/Bosphorus_1920x1080_120fps_420_8bit_YUV.yuv", "rb");
+    FILE *fd2 = fopen("Bosphorus.yuv", "wb");
 
     // Ελέγχουμε αν το αρχείο φορτώθηκε κανονικά.
     if (fd == NULL) {
@@ -43,11 +48,17 @@ int main() {
     while(fread(yuvFrame, 1, frameSize, fd) == frameSize) {
         // Μετατρέπουμε το frame σε grayscaled.
         convertToGrayscale(yuvFrame);
+
+        // Αντιστοιχούμε κάθε ασπρόμαυρο frame στο fd2 αρχείο.
+        fwrite(yuvFrame, 1, frameSize, fd2);
+
+
     }
 
 
     // Κλείνουμε το αρχείο και αποδεσμεύουμε τη μνήμη.
     fclose(fd);
+    fclose(fd2);
     free(yuvFrame);
 
     return 0;
