@@ -1,7 +1,10 @@
 import numpy as np
+import cv2
 import os
 
+
 import grayScaleYUV
+import colorizeYUV
 
 # Θέτουμε το ύψος και πλάτος του βίντεο.
 HEIGHT = 1080
@@ -14,3 +17,5 @@ if __name__ == "__main__":
         print("Generating grayscaled YUV file...")
         grayScaleYUV.grayScale()
         print("YUV file generated successfully!")
+
+    
