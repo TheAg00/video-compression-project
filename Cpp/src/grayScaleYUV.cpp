@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 
-#include "../include/header.h"
+// #include "../include/header.h"
 
 using namespace std;
 
@@ -79,4 +79,9 @@ void grayScale() {
     outputFile.close();
 
     return;
+}
+
+int main(){
+    grayScale();
+    return 0;
 }

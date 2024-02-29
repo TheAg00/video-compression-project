@@ -58,14 +58,14 @@ int main() {
     Py_Initialize();
 
     // Run a Python script
-    FILE* dataFile = fopen("../hello.py", "r");
+    FILE* dataFile = fopen("../colorizeMP4.py", "r");
     if (!dataFile) {
         cerr << "Failed to open python script" << endl;
         exit(1);
     }
 
     // Execute the Python script
-    PyRun_SimpleFile(dataFile, "../hello.py");
+    PyRun_SimpleFile(dataFile, "../colorizeMP4.py");
 
     // Close the file
     fclose(dataFile);
