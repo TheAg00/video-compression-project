@@ -3,6 +3,9 @@
 #include <vector>
 #include <algorithm>
 #include <opencv2/opencv.hpp>
+// #define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 
 
 #include <cstdlib> // for system()
@@ -34,35 +37,6 @@ void convertYUVtoMP4() {
 }
 
 
-void colorizeMP4() {
-    string pathMP4 = "../resources/ouput22.mp4";
-
-    // Open the MP4 file for reading
-    cv::VideoCapture inputVideo(pathMP4);
-    if (!inputVideo.isOpened()) {
-        cerr << "Error opening input video file\n";
-        exit(1);
-    }
-
-    // Create a VideoWriter object to write the output
-    cv::VideoWriter outputVideo("../resources/colorized22.mp4", cv::VideoWriter::fourcc('X', '2', '6', '4'), FPS, cv::Size(WIDTH, HEIGHT));
-    if (!outputVideo.isOpened()) {
-        cerr << "Error opening output video file for writing\n";
-        exit(1);
-    }
-
-    // Process each frame
-    cv::Mat frame;
-    while (inputVideo.read(frame)) {
-        // Apply color manipulation (example: invert colors)
-        cv::bitwise_not(frame, frame);
-
-        // Write the modified frame to the output video
-        outputVideo.write(frame);
-    }
-}
-
-
 int main() {
     string pathBlackAndWhite = "../resources/Bosphorus_black_and_white.yuv";
     if (!ifstream(pathBlackAndWhite)) {
@@ -72,9 +46,34 @@ int main() {
         cout << "YUV file generated successfully!" << endl;
     }
 
-    convertYUVtoMP4();
+    string pathMP4 = "../resources/black_and_white_22.mp4";
 
-    colorizeMP4();
+    if(!ifstream(pathMP4)) {
+        cout << "Converting YUV to MP4..." << endl;
+        convertYUVtoMP4(); // Call your function to convert the YUV file to MP4
+        cout << "MP4 file generated successfully!" << endl;
+    }
+
+    // Initialize the Python interpreter
+    Py_Initialize();
+
+    // Run a Python script
+    FILE* dataFile = fopen("../hello.py", "r");
+    if (!dataFile) {
+        cerr << "Failed to open python script" << endl;
+        exit(1);
+    }
+
+    // Execute the Python script
+    PyRun_SimpleFile(dataFile, "../hello.py");
+
+    // Close the file
+    fclose(dataFile);
+
+    // Finalize the Python interpreter
+    Py_Finalize();
+
+    // colorizeMP4();
 
     return 0;
 }

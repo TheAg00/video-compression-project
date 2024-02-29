@@ -5,6 +5,11 @@ project(colorization)
 include_directories(include)
 
 
+find_package(PythonLibs REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
+
+
+
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 # target_link_libraries( DisplayImage ${OpenCV_LIBS} )
@@ -16,3 +21,4 @@ file(GLOB SOURCES "src/*.cpp")
 add_executable(colorization ${SOURCES})
 
 target_link_libraries( colorization ${OpenCV_LIBS} )
+target_link_libraries( colorization ${PYTHON_LIBRARIES} )
